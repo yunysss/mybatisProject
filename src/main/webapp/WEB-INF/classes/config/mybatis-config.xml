@@ -7,9 +7,11 @@
 		<setting name="jdbcTypeForNull" value="NULL" />	
 	</settings>
 	
-	<!-- * typeAlias : VO/DTO 클래스들의 풀클래스명을 따로 별칭으로 등록해두는 영역 -->
+	<!-- * typeAlias : VO/DTO 클래스들의 풀클래스명을 따로 별칭으로 등록해두는 영역 (클래스 생성 전 별칭 등록하면 오류 발생) -->
 	<typeAliases>
-		
+		<typeAlias type="com.br.mybatis.member.model.vo.Member" alias="Member" />
+		<typeAlias type="com.br.mybatis.board.model.vo.Board" alias="Board" />
+		<typeAlias type="com.br.mybatis.board.model.vo.Reply" alias="Reply" />
 	</typeAliases>
 	
 	<!-- * environment : mybatis에서 연동할 DB정보들을 등록하는 영역 -->
@@ -40,6 +42,7 @@
 	
 	<!-- * mapper : 실행할 sql문들을 기록해둔 mapper파일들을 등록하는 영역 -->
 	<mappers>
-		
+		<mapper resource="/mappers/member-mapper.xml" />
+		<mapper resource="/mappers/board-mapper.xml" />
 	</mappers>
 </configuration>

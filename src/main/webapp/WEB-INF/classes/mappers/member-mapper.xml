@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="memberMapper">
+	<!-- namespace : 해당 mapper파일만의 고유한 별칭(필수) -->
+	
+	<!-- 
+		* resultMap : ResultSet으로부터 조회된 컬럼값 뽑아서 내가 지정한 vo객체의 필드에 담는(매핑) JDBC코드를 줄여주는 역할 수행
+		
+		<resultMap id="식별자" type="조회결과를 담아서 반환하고자 하는 vo객체의 타입">
+			<result column="조회결과를뽑을DB컬럼명(대소문자 모두 가능)" property="해당결과를담고자하는vo의필드명" />
+			<result column="조회결과를뽑을DB컬럼명" property="해당결과를담고자하는vo의필드명" />
+			<result column="조회결과를뽑을DB컬럼명" property="해당결과를담고자하는vo의필드명" />
+		</resultMap>
+	 -->
+	<resultMap id="memberResultSet" type="Member">
+		<id column="user_no" property="userNo" /> <!-- id태그 : primary key -->
+		<result column="user_id" property="userId" />
+		<result column="user_pwd" property="userPwd" />
+		<result column="user_name" property="userName" />
+		<result column="email" property="email" />
+		<result column="birthday" property="birthday" />
+		<result column="gender" property="gender" />
+		<result column="phone" property="phone" />
+		<result column="address" property="address" />
+		<result column="enroll_date" property="enrollDate" />
+		<result column="modify_date" property="modifyDate" />
+		<result column="status" property="status" />
+	</resultMap>
+	
+	<insert id="insertMember" parameterType="Member">
+		insert
+		  into member
+		  (
+		    user_no
+		  , user_id
+		  , user_pwd
+		  , user_name
+		  , email
+		  , birthday
+		  , gender
+		  , phone
+		  , address
+		  )
+		  values
+		  (
+		    seq_uno.nextval
+		  , #{userId}
+		  , #{userPwd}
+		  , #{userName}
+		  , #{email}
+		  , #{birthday}
+		  , #{gender}
+		  , #{phone}
+		  , #{address}
+		  )		
+	</insert>
+	
+	<select id="loginMember" parameterType="Member"
+	        resultMap="memberResultSet">
+		select
+			   user_no
+			 , user_id
+			 , user_pwd
+			 , user_name
+			 , email
+			 , birthday
+			 , gender
+			 , phone
+			 , address
+			 , enroll_date
+			 , modify_date
+			 , status
+		  from member
+		 where status = 'Y'
+		   and user_id = #{userId}
+		   and user_pwd = #{userPwd}
+	</select>
+	
+	<update id="updateMember" parameterType="Member">
+		update member
+		   set 
+		       user_pwd = #{userPwd},
+		       user_name = #{userName},
+		       email = #{email},
+		       birthday = #{birthday},
+		       gender = #{gender},
+		       phone = #{phone},
+		       address = #{address}
+	 	 where user_id = #{userId}
+	</update>
+	
+	<!-- 
+		* DML문일 경우
+		<insert|update|delete id="식별자" [parameterType="해당 sql문에 전달되는 값의 타입(풀클래스명)|별칭"]>
+		=> 실행결과가 처리된 행수(int)이기 때문에 resultType 또는 resultMap 작성 안해도 됨
+		
+		* SELECT문일 경우
+		<select id="식별자" [parameterType="해당 sql문에 전달되는 값의 타입(풀클래스명)|별칭"]
+			resultType="조회결과를 반환하고자 하는 자바 타입(필드명과 컬럼명이 일치할때만 가능 혹은 컬럼명에 필드명과 동일하게 별칭 부여하면 가능)" 
+			| resultMap="조회결과를 뽑아서 매핑시킬 resultMap의 id">
+			
+		* 공통적인 특징
+		? 대신에 해당 sql문에 전달된 객체|변수로 부터 값을 꺼낼때 #{필드명} 또는 #{변수명} 이용
+							  HashMap으로 부터 값을 꺼낼때 #{키값}
+	 -->
+</mapper>

@@ -30,6 +30,14 @@
       background:darkgray;
       cursor:pointer;
    }
+   
+   .outer{
+	   	width:900px;
+	   	background:black;
+	   	color:white;
+	   	margin:auto;
+	   	margin-top:50px;
+   }
 </style>
 </head>
 <body>
@@ -41,7 +49,7 @@
 		
 		<c:choose>
 			<c:when test="${ empty sessionScope.loginUser }">
-				<form action="" method="post">
+				<form action="login.me" method="post">
 					<table>
 						<tr>
 							<td>아이디</td>
@@ -54,7 +62,7 @@
 						</tr>
 						<tr>
 							<td colspan="3" align="center">
-								<a>회원가입</a>
+								<a href="enrollForm.me">회원가입</a>
 								<a>아이디/비번찾기</a>
 							</td>
 						</tr>
@@ -67,7 +75,7 @@
 						<td colspan="2"><b>${ loginUser.userName }님 환영합니다.</b></td>
 					</tr>
 					<tr>
-						<td><a>마이페이지</a></td>
+						<td><a href="myPage.me">마이페이지</a></td>
 						<td><a>로그아웃</a></td>
 					</tr>
 				</table>
@@ -79,7 +87,7 @@
 	<div class="nav-area" align="center">
 		<div class="menu">HOME</div>
 		<div class="menu">공지사항</div>
-		<div class="menu">게시판</div>
+		<div class="menu" onclick="location.href='list.bo?cpage=1';">게시판</div>
 		<div class="menu">ETC</div>
 	</div>
 </body>
