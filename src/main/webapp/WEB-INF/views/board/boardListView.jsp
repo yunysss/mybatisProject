@@ -28,16 +28,21 @@
         <br>
 
         <div id="search-area">
-            <form action="" method="get">
+            <form action="search.bo" method="get">
+            	<input type="hidden" name="cpage" value="1">
                 <select name="condition">
                     <option value="writer">작성자</option>
                     <option value="title">제목</option>
                     <option value="content">내용</option>
                 </select>
-                <input type="text" name="keyword">
+                <input type="text" name="keyword" value="${ keyword }">
                 <button type="submit">검색</button>
             </form>
         </div>
+        
+        <script>
+        	document.querySelector("#search-area option[value=${condition}]").selected = true;
+        </script>
         
         <c:if test="${ not empty loginUser }">
 	        <div align="right" style="width:650px">
@@ -60,7 +65,7 @@
             	<c:forEach var="b" items="${ list }">
 	                <tr>
 	                    <td>${ b.boardNo }</td>
-	                    <td>${ b.boardTitle }</td>
+	                    <td><a href="detail.bo?no=${ b.boardNo }">${ b.boardTitle }</a></td>
 	                    <td>${ b.boardWriter }</td>
 	                    <td>${ b.count }</td>
 	                    <td>${ b.createDate }</td>
@@ -78,7 +83,15 @@
 			</c:if>
 			
 			<c:forEach var="p" begin="${ pi.startPage }" end="${ pi.endPage }">
-            	<a href="list.bo?cpage=${ p }">[${ p }]</a>
+            	
+            	<c:choose>
+            		<c:when test="${ empty condition }">
+	            		<a href="list.bo?cpage=${ p }">[${ p }]</a>
+	            	</c:when>
+	            	<c:otherwise>
+	            		<a href="search.bo?cpage=${ p }&condition=${condition}&keyword=${keyword}">[${ p }]</a>
+	            	</c:otherwise>
+            	</c:choose>
 			</c:forEach>
 			
 			<c:if test="${ pi.currentPage ne pi.maxPage }">

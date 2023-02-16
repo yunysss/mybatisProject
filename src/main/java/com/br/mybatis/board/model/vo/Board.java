@@ -2,6 +2,8 @@ package com.br.mybatis.board.model.vo;
 
 import java.util.Date;
 
+import com.br.mybatis.member.model.vo.Member;
+
 public class Board {
 	
 	private int boardNo;
@@ -11,6 +13,8 @@ public class Board {
 	private int count;
 	private Date createDate;
 	private String status;
+	
+	private Member mem; // 1대1관계 (한 게시글에 한 작성자이기 때문) => has one
 	
 	public Board() {}
 
@@ -80,6 +84,14 @@ public class Board {
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	public Member getMem() {
+		return mem;
+	}
+
+	public void setMem(Member mem) {
+		this.mem = mem;
 	}
 
 	@Override
