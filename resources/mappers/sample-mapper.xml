@@ -46,4 +46,59 @@
 		  join member on (board_writer = user_no)
 		 where board_no = 1
 	</select>
+	
+	<!-- 2. 1:N관계에서는 collection 사용 -->
+	<!-- 2_1) collection 방법1 -->
+	<!-- 
+	<resultMap id="boardResultSet2" type="Board">
+		<id column="board_no" property="boardNo" />
+		<result column="board_title" property="boardTitle" />
+		<result column="board_content" property="boardContent" />
+		<collection property="replyList" ofType="Reply"> ofType : ArrayList의 generic 타입 작성
+			<id column="reply_no" property="replyNo" />
+			<result column="reply_content" property="replyContent" />
+			<result column="create_date" property="createDate" />
+		</collection>
+	</resultMap>
+	-->
+	
+	<!-- 2_2) collection 방법2 -->
+	<resultMap id="boardResultSet2" type="Board">
+		<id column="board_no" property="boardNo" />
+		<result column="board_title" property="boardTitle" />
+		<result column="board_content" property="boardContent" />
+		<collection property="replyList" resultMap="replyResultSet" />
+	</resultMap>
+	
+	<resultMap id="replyResultSet" type="Reply">
+		<id column="reply_no" property="replyNo" />
+		<result column="reply_content" property="replyContent" />
+		<result column="create_date" property="createDate" />
+	</resultMap>
+	
+	<select id="boardHasManyReply" resultMap="boardResultSet2">
+		select
+		       board_no
+		     , board_title
+		     , board_content
+		     , reply_no
+		     , reply_content
+		     , r.create_date
+		  from board
+		  left join reply r on(board_no = ref_bno)
+		 where board_no = 13
+	</select>
+	
+	<select id="boardList" resultMap="boardResultSet2">
+		select
+		       board_no
+		     , board_title
+		     , board_content
+		     , reply_no
+		     , reply_content
+		     , r.create_date
+		  from board
+		  left join reply r on(board_no = ref_bno)
+		  order by board_no desc
+	</select>
 </mapper>

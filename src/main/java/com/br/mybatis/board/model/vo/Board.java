@@ -1,5 +1,6 @@
 package com.br.mybatis.board.model.vo;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 import com.br.mybatis.member.model.vo.Member;
@@ -15,6 +16,7 @@ public class Board {
 	private String status;
 	
 	private Member mem; // 1대1관계 (한 게시글에 한 작성자이기 때문) => has one
+	private ArrayList<Reply> replyList; // 1대N관계 (한 게시글에 여러 댓글이기 때문에) => has many
 	
 	public Board() {}
 
@@ -92,6 +94,14 @@ public class Board {
 
 	public void setMem(Member mem) {
 		this.mem = mem;
+	}
+
+	public ArrayList<Reply> getReplyList() {
+		return replyList;
+	}
+
+	public void setReplyList(ArrayList<Reply> replyList) {
+		this.replyList = replyList;
 	}
 
 	@Override
